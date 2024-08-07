@@ -7,10 +7,10 @@ EXPOSE 443
 # Use the SDK image for building the app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["ApiTest/ApiTest.csproj", "ApiTest/"]
-RUN dotnet restore "ApiTest/ApiTest.csproj"
+COPY ["ApiTest.csproj", "."]
+RUN dotnet restore "ApiTest.csproj"
 COPY . .
-WORKDIR "/src/ApiTest"
+WORKDIR "/src"
 RUN dotnet build "ApiTest.csproj" -c Release -o /app/build
 
 FROM build AS publish
