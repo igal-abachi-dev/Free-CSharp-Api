@@ -1,34 +1,25 @@
-# Free CSharp Api hosting 
-.net 8 web api , c#
+# Free C# API Hosting
 
-test free render.com
-api hosting using docker
+A .NET 8 Web API in C#, based on the Visual Studio Web API template (Weather Forecast).
 
-uses visual studio web api template(weather forcast)
+Live URL: [WeatherForecast API](https://apitest-v059.onrender.com/WeatherForecast/)
 
-live url:
+## Prevent Spindown
+Connect to [UptimeRobot](https://uptimerobot.com/) to avoid the 50-second delay on the first call.
 
-https://apitest-v059.onrender.com/WeatherForecast/
+## Deploying a C# Web API on Render.com Using Docker
 
-
- connect free
-https://uptimerobot.com/
-so it wont spin down(50sec delay on first call)
-
-
-# Deploying a C# Web API on Render.com Using Docker
-
-## Step 1: Create a Render Account
+### Step 1: Create a Render Account
 
 1. Go to [Render.com](https://render.com/) and sign up for a free account.
 2. After signing up, log in to your Render dashboard.
 
-## Step 2: Create a New Web Service
+### Step 2: Create a New Web Service
 
 1. In the Render dashboard, click on the "New" button and select "Web Service".
 2. Connect your GitHub repository containing your C# web API project to Render.
 
-## Step 3: Configure the Service
+### Step 3: Configure the Service
 
 1. **Name**: Give your service a name.
 2. **Environment**: Select Docker.
@@ -37,27 +28,26 @@ so it wont spin down(50sec delay on first call)
 5. **Dockerfile Path**: If your Dockerfile is in the root of the repository, leave this as `Dockerfile`.
 6. **Docker Context Directory**: If your Dockerfile is in the root, set this to `/`.
 
-## Step 4: Deploy
+### Step 4: Deploy
 
 1. Click on "Create Web Service".
 2. Render will start the build process, pulling the necessary images, building your project, and deploying the service.
 
 Your web service should now be up and running on Render.com!
 
+## Hosting Guide for C# API and React Vite TS Website
 
-# Hosting Guide for C# API and React Vite TS Website
-
-## Hosting C# API on Render.com
+### Hosting C# API on Render.com
 
 1. **Create a Render Account**: Sign up at [Render.com](https://render.com/).
 2. **Deploy Your API**: 
     - Connect your GitHub repository.
     - Configure the service to use Docker.
     - Deploy your application.
-    - use [Supabase free postgres db](https://supabase.com/)  with Npgsql.EntityFrameworkCore.PostgreSQL
-    - use [Auth0](https://auth0.com/) for free jwt login
+    - Use [Supabase free Postgres DB](https://supabase.com/) with `Npgsql.EntityFrameworkCore.PostgreSQL`.
+    - Use [Auth0](https://auth0.com/) for free JWT login.
 
-## Hosting React Vite TS Website on Vercel , connect it to the render api
+### Hosting React Vite TS Website on Vercel
 
 1. **Create a Vercel Account**: Sign up at [Vercel.com](https://vercel.com/).
 2. **Deploy Your Website**: 
@@ -67,4 +57,3 @@ Your web service should now be up and running on Render.com!
 3. **Overcome CORS with Serverless Functions**: 
     - Use Vercel's serverless functions to proxy API requests.
     - Handle CORS issues effectively.
-
