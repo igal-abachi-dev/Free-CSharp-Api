@@ -54,7 +54,8 @@ Your web service should now be up and running on Render.com!
     - Connect your GitHub repository.
     - Configure the service to use Docker.
     - Deploy your application.
-    - use [Supabase free postgres db](https://supabase.com/)  using Npgsql.EntityFrameworkCore.PostgreSQL
+    - use [Supabase free postgres db](https://supabase.com/)  with Npgsql.EntityFrameworkCore.PostgreSQL
+    - use [Auth0](https://auth0.com/) for free jwt login
 
 ## Hosting React Vite TS Website on Vercel , connect it to the render api
 
