@@ -15,23 +15,35 @@ using System;
 [Route("[controller]")]
 public class KeepAliveController : ControllerBase
 {
-    private static readonly DateTime _startTime = DateTime.UtcNow;
+    private static DateTime _startTime;
+    private static bool _isHealthy = true;
+
+    public static void SetStartTime(DateTime startTime)
+    {
+        //in Main() of exe: KeepAliveController.SetStartTime(DateTime.UtcNow);
+        _startTime = startTime;
+    }
+
+    public static void SetIsHealthy(bool isHealthy)
+    {
+        _isHealthy = isHealthy;
+    }
 
     //like default,  WebApplication.CreateBuilder(args).Services.AddHealthChecks();
     [HttpGet]
     public IActionResult Get()
     {
         var uptime = DateTime.UtcNow - _startTime;
-
         var response = new
         {
-            status = "Healthy",
-            totalDuration = uptime.ToString("c") //"1.02:03:04"
+            status = _isHealthy ? "Healthy" : "Unhealthy",
+            totalDuration = uptime.ToString("c")
         };
 
-        return Ok(response);
+        return _isHealthy ? Ok(response) : StatusCode(503, response);
     }
 }
+
 ```
 
 ## Deploying a C# Web API on Render.com Using Docker
