@@ -7,6 +7,33 @@ Live URL: [WeatherForecast API](https://apitest-v059.onrender.com/WeatherForecas
 ## Prevent Spindown
 Connect to [UptimeRobot](https://uptimerobot.com/) to avoid the 50-second delay on the first call.
 
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using System;
+
+[ApiController]
+[Route("[controller]")]
+public class KeepAliveController : ControllerBase
+{
+    private static readonly DateTime _startTime = DateTime.UtcNow;
+
+    //like default,  WebApplication.CreateBuilder(args).Services.AddHealthChecks();
+    [HttpGet]
+    public IActionResult Get()
+    {
+        var uptime = DateTime.UtcNow - _startTime;
+
+        var response = new
+        {
+            status = "Healthy",
+            totalDuration = uptime.ToString("c") //"1.02:03:04"
+        };
+
+        return Ok(response);
+    }
+}
+```
+
 ## Deploying a C# Web API on Render.com Using Docker
 
 ### Step 1: Create a Render Account
