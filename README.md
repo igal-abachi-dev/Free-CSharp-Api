@@ -16,30 +16,41 @@ using System.Diagnostics;
 [Route("[controller]")]
 public class KeepAliveController : ControllerBase
 {
-    private static readonly Stopwatch _stopwatch = Stopwatch.StartNew();
-    private static bool _isHealthy = true;
+    private static long _startTimestamp = Stopwatch.GetTimestamp();
+    private static int _isHealthy = 1; 
+
+
     public static void StartUptimeTimer()
     {
         //in Main() of exe: KeepAliveController.StartUptimeTimer()
-        _stopwatch = Stopwatch.StartNew();
+        _startTimestamp = Stopwatch.GetTimestamp();
     }
     public static void SetIsHealthy(bool isHealthy)
     {
-        _isHealthy = isHealthy;
+        Interlocked.Exchange(ref _isHealthy, isHealthy ? 1 : 0);
     }
 
     //like default,  WebApplication.CreateBuilder(args).Services.AddHealthChecks();
     [HttpGet]
     public IActionResult Get()
     {
-        var uptime = _stopwatch.GetElapsedTime();
+        var uptime = GetElapsedTime(_startTimestamp, Stopwatch.GetTimestamp());
+        var isHealthy = Interlocked.Read(ref _isHealthy) == 1;
         var response = new
         {
-            status = _isHealthy ? "Healthy" : "Unhealthy",
+            status = isHealthy ? "Healthy" : "Unhealthy",
             totalDuration = uptime.ToString("c") //"1.02:03:04"
         };
 
         return _isHealthy ? Ok(response) : StatusCode(503, response);
+    }
+
+    private static readonly double TimestampToTicks = TimeSpan.TicksPerSecond / (double)Stopwatch.Frequency;
+    private TimeSpan GetElapsedTime(long startTimestamp, long endTimestamp)
+    {
+        var timestampDelta = endTimestamp - startTimestamp;
+        var ticks = (long)(TimestampToTicks * timestampDelta);
+        return new TimeSpan(ticks);
     }
 }
 ```
