@@ -8,22 +8,21 @@ Live URL: [WeatherForecast API](https://apitest-v059.onrender.com/WeatherForecas
 Connect to [UptimeRobot](https://uptimerobot.com/) to avoid the 50-second delay on the first call.
 
 ```csharp
-using Microsoft.AspNetCore.Mvc;
 using System;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 [ApiController]
 [Route("[controller]")]
 public class KeepAliveController : ControllerBase
 {
-    private static DateTime _startTime;
+    private static readonly Stopwatch _stopwatch = Stopwatch.StartNew();
     private static bool _isHealthy = true;
-
-    public static void SetStartTime(DateTime startTime)
+    public static void StartUptimeTimer()
     {
-        //in Main() of exe: KeepAliveController.SetStartTime(DateTime.UtcNow);
-        _startTime = startTime;
+        //in Main() of exe: KeepAliveController.StartUptimeTimer()
+        _stopwatch = Stopwatch.StartNew();
     }
-
     public static void SetIsHealthy(bool isHealthy)
     {
         _isHealthy = isHealthy;
@@ -33,17 +32,16 @@ public class KeepAliveController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        var uptime = DateTime.UtcNow - _startTime;
+        var uptime = _stopwatch.GetElapsedTime();
         var response = new
         {
             status = _isHealthy ? "Healthy" : "Unhealthy",
-            totalDuration = uptime.ToString("c")
+            totalDuration = uptime.ToString("c") //"1.02:03:04"
         };
 
         return _isHealthy ? Ok(response) : StatusCode(503, response);
     }
 }
-
 ```
 
 ## Deploying a C# Web API on Render.com Using Docker
