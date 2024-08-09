@@ -7,14 +7,14 @@ using System.Diagnostics;
 public class KeepAliveController : ControllerBase
 {
     private static long _startTimestamp = Stopwatch.GetTimestamp();
-    private static int _isHealthy = 1; 
-
+    private static int _isHealthy = 1;
 
     public static void StartUptimeTimer()
     {
         //in Main() of exe: KeepAliveController.StartUptimeTimer()
         _startTimestamp = Stopwatch.GetTimestamp();
     }
+
     public static void SetIsHealthy(bool isHealthy)
     {
         Interlocked.Exchange(ref _isHealthy, isHealthy ? 1 : 0);
