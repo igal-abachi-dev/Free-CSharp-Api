@@ -1,4 +1,5 @@
 var builder = WebApplication.CreateBuilder(args);
+KeepAliveController.StartUptimeTimer();
 
 // Add services to the container.
 
