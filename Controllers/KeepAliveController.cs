@@ -25,14 +25,14 @@ public class KeepAliveController : ControllerBase
     public IActionResult Get()
     {
         var uptime = GetElapsedTime(_startTimestamp, Stopwatch.GetTimestamp());
-        var isHealthy = Interlocked.Read(ref _isHealthy) == 1;
+        bool isHealthy = Interlocked.Read(ref _isHealthy) == 1;
         var response = new
         {
             status = isHealthy ? "Healthy" : "Unhealthy",
             totalDuration = uptime.ToString("c") //"1.02:03:04"
         };
 
-        return _isHealthy ? Ok(response) : StatusCode(503, response);
+        return isHealthy ? Ok(response) : StatusCode(503, response);
     }
 
     private static readonly double TimestampToTicks = TimeSpan.TicksPerSecond / (double)Stopwatch.Frequency;
