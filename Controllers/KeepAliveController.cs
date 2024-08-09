@@ -7,7 +7,7 @@ using System.Diagnostics;
 public class KeepAliveController : ControllerBase
 {
     private static long _startTimestamp = Stopwatch.GetTimestamp();
-    private static int _isHealthy = 1;
+    private static long _isHealthy = 1;
 
     public static void StartUptimeTimer()
     {
@@ -25,7 +25,7 @@ public class KeepAliveController : ControllerBase
     public IActionResult Get()
     {
         var uptime = GetElapsedTime(_startTimestamp, Stopwatch.GetTimestamp());
-        bool isHealthy = true;//Interlocked.Read(ref _isHealthy) == 1;
+        bool isHealthy = Interlocked.Read(ref _isHealthy) == 1;
         var response = new
         {
             status = isHealthy ? "Healthy" : "Unhealthy",
